@@ -14,7 +14,11 @@ client = OpenAI(
     timeout=30.0 # Increase timeout to 30 seconds
 )
 
-def get_chat_completion(messages: List[Dict[str, str]], model: str = "gpt-3.5-turbo") -> str:
+OPENAI_CHAT_MODEL = os.getenv("OPENAI_CHAT_MODEL", "gpt-3.5-turbo")
+
+def get_chat_completion(messages: List[Dict[str, str]], model: str = None) -> str:
+    if model is None:
+        model = OPENAI_CHAT_MODEL
     try:
         response = client.chat.completions.create(
             model=model,
